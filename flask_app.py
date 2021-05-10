@@ -34,7 +34,7 @@ class var:
   '''
 
 
-@app.route('/')
+@app.route('/', methods = ['POST'])
 def home():
     msg = ''
     if request.method == 'POST':
