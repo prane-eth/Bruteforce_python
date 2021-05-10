@@ -5,6 +5,7 @@ app.secret_key = 'my_secret_key'
 
 class var:
   arr = []
+  bots_list = ['bot', 'curl', 'wget', 'crawl', 'slurp', 'spider', 'mediapartners']
   html_code = '''
   <html> 
     <head> 
@@ -38,6 +39,11 @@ class var:
 
 @app.route('/', methods = ['POST', 'GET'])
 def home():
+
+    user_agent = request.headers.get('User-Agent')
+    if user_agent in var.bots_list:
+        return 'This website is not for bots'
+
     msg = ''
     if request.method == 'POST':
         email = request.form['email']
@@ -50,7 +56,7 @@ def home():
     return render_template_string(var.html_code, msg=msg)
 
 
-@app.route('/arr/')
+@app.route('/last/')
 def display_arr():
     return '\n'.join(var.arr)
 
