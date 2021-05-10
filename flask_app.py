@@ -34,7 +34,7 @@ class var:
   '''
 
 
-@app.route('/', methods = ['POST'])
+@app.route('/', methods = ['POST', 'GET'])
 def home():
     msg = ''
     if request.method == 'POST':
@@ -47,7 +47,7 @@ def home():
 
 @app.route('/arr/')
 def display_arr():
-  return '\n'.join(arr)
+    return '\n'.join(arr)
 
 if __name__ == "__main__":
     app.run()
