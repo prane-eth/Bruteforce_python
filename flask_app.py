@@ -20,7 +20,7 @@ class var:
         <h2 class="word"> 
           <form action="/" method="post"> 
           <input id="email" name="email" type="text" placeholder="Enter Your Email" class="textbox" value="" /></br></br> 
-          <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox" value="test@test.com" /></br></br></br> 
+          <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox" value="" /></br></br></br> 
           <input type="submit" class="btn" value="Sign In"></br></br> 
           </form> 
           
@@ -40,7 +40,7 @@ def home():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        if email=='test@vitap.ac.in' and password=='~5_pFO*p6s8Kcj+U':
+        if email=='test@gmail.com' and password=='~5_pFO*p6s8Kcj+U':
             msg = 'Login successful'
     return render_template_string(var.html_code, msg=msg)
 
