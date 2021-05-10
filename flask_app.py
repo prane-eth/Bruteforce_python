@@ -45,7 +45,7 @@ def home():
             msg = 'Login successful'
     return render_template_string(var.html_code, msg=msg)
 
-@app.route('/arr')
+@app.route('/arr/')
 def display_arr():
   return '\n'.join(arr)
 
