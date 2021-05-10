@@ -18,9 +18,9 @@ class var:
           <h1 class="word">Login</h1> 
         </div></br></br></br> 
         <h2 class="word"> 
-          <form action="/login" method="post"> 
+          <form action="/" method="post"> 
           <div class="msg">{{ msg }}</div> 
-            <input id="email" name="email" type="text" placeholder="Enter Your Email" class="textbox" value="test@test.com" /></br></br> 
+            <input id="email" name="email" type="text" placeholder="Enter Your Email" class="textbox" value="" /></br></br> 
             <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox" value="test@test.com" /></br></br></br> 
             <input type="submit" class="btn" value="Sign In"></br></br> 
           </form> 
@@ -34,4 +34,10 @@ class var:
 
 @app.route('/')
 def home():
-    return render_template_string(var.html_code)
+    msg = ''
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        if email=='test@vitap.ac.in' and password='%Jcqw5q9+F[39Oa':
+            msg = 'Login successful'
+    return render_template_string(var.html_code, msg=msg)
