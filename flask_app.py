@@ -39,7 +39,7 @@ def home():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        if email=='test@vitap.ac.in' and password='%Jcqw5q9+F[39Oa':
+        if email=='test@vitap.ac.in' and password=='~5_pFO*p6s8Kcj+U':
             msg = 'Login successful'
     return render_template_string(var.html_code, msg=msg)
 
