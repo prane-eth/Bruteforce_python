@@ -1,3 +1,4 @@
+import re
 from flask import Flask, request, redirect, session, render_template, render_template_string
 
 app = Flask(__name__)
@@ -5,7 +6,8 @@ app.secret_key = 'my_secret_key'
 
 class var:
   arr = []
-  bots_list = ['', 'bot', 'curl', 'wget', 'crawl', 'slurp', 'spider', 'mediapartners']
+  bots_list = \
+    '/bot|spider|curl|wget|crawl|slurp|python|java|blowfish|mediapartners/i'
   html_code = '''
   <html> 
     <head> 
@@ -41,7 +43,10 @@ class var:
 def home():
 
     user_agent = request.headers.get('User-Agent')
-    if user_agent in var.bots_list:
+
+    output = re.search(var.bots_list, user_agent, flags=re.IGNORECASE)
+    
+    if output or not user_agent:
         return 'This website is not for bots'
 
     msg = ''
@@ -53,12 +58,13 @@ def home():
         else:
             msg = "Login failed"
             var.arr.append(password)
-    return render_template_string(var.html_code, msg=msg)
+    return user_agent[:10] + render_template_string(var.html_code, msg=msg)
 
 
 @app.route('/last/')
 def display_arr():
     return '\n'.join(var.arr)
+
 
 if __name__ == "__main__":
     app.run()
