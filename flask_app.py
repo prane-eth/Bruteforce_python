@@ -11,22 +11,24 @@ class var:
       <title> Login page </title>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"-->
     </head> 
-    <body></br></br></br></br></br> 
-      <div align="center"> 
+    <body>
       <div align="center" class="border"> 
         <div class="header"> 
           <h1 class="word">Login</h1> 
         </div></br></br></br> 
         <h2 class="word"> 
           <form action="/" method="post"> 
-          <input id="email" name="email" type="text" placeholder="Enter Your Email" class="textbox" value="" /></br></br> 
-          <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox" value="" /></br></br></br> 
-          <input type="submit" class="btn" value="Sign In"></br></br> 
+          <input id="email" name="email" type="text" placeholder="Enter Your Email" class="textbox" value=""> </br> </br> 
+          <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox" value=""> </br>
+          <input type="submit" class="btn" value="Sign In">
           </form> 
           
           <div class="msg"> {{ msg }} </div> 
         </h2> 
         <p class="bottom">Don't have an account? <a class="bottom" href="/"> Sign Up here</a></p> 
+          
+    		test@gmail.com <br>
+        	~5_pFO*p6s8Kcj+U
       </div> 
       </div> 
     </body> 
