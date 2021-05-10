@@ -5,7 +5,7 @@ app.secret_key = 'my_secret_key'
 
 class var:
   arr = []
-  bots_list = ['bot', 'curl', 'wget', 'crawl', 'slurp', 'spider', 'mediapartners']
+  bots_list = ['', 'bot', 'curl', 'wget', 'crawl', 'slurp', 'spider', 'mediapartners']
   html_code = '''
   <html> 
     <head> 
