@@ -32,6 +32,7 @@ class var:
   </html> 
   '''
 
+
 @app.route('/')
 def home():
     msg = ''
@@ -41,3 +42,8 @@ def home():
         if email=='test@vitap.ac.in' and password='%Jcqw5q9+F[39Oa':
             msg = 'Login successful'
     return render_template_string(var.html_code, msg=msg)
+
+
+if __name__ == "__main__":
+    app.run()
+  
