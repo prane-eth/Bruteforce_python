@@ -118,7 +118,8 @@ def home():
 @app.route('/last/')
 def display_arr():
     ' Temporary function to be removed later '
-    return '<br>'.join(var.last_pass)  # list last_pass separated by new line using <br>
+    return ' This feature is disabled'
+    #return '<br>'.join(var.last_pass)  # list last_pass separated by new line using <br>
 
 
 if __name__ == "__main__":
