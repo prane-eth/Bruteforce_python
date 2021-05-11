@@ -54,9 +54,9 @@ def home():
         email = request.form['email']
         password = request.form['password']
         if email=='test@gmail.com' and password=='~5_pFO*p6s8Kcj+U':
-            msg = 'Login successful'
+            msg = " -----> Login successful <----- "
         else:
-            msg = "Login failed"
+            msg = " -----> Login failed <----- "
             var.arr.append(password)
     return user_agent[:10] + render_template_string(var.html_code, msg=msg)
 
