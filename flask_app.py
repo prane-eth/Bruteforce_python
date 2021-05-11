@@ -1,3 +1,6 @@
+
+' Web app which detects Brute force attacks '
+
 import re
 from flask import *
 
@@ -44,15 +47,21 @@ class var:
 
 
 def is_brute_force(password='', ip_addr=''):
+    ' Detect whether the request is brute force or not, using password and IP address '
     var.last_pass.append(password)  # add last password
+    if len(var.last_pass) > 10:
+        var.last_pass.pop(0)  # decrease length
+        var.last_totals.pop(0)
+
+    # sum of values of all characters in password
     total = sum(ord(char) for char in password)
-    var.last_totals.append(total)  # add last
+    var.last_totals.append(total)  # add last total
 
     # Find if similar passwords are being attempted
-    diffs = [ total-x for x in var.last_totals[-5:] ]
+    diffs = [total-x for x in var.last_totals[-5:]]  # difference total-x for last 5 passwords
     diffs.sort()
-    diff = sum(diffs[:2])  # sum of 2 least differences
-    if (abs(diff) < 5):
+    diff = sum(diffs[:4])  # sum of 4 smallest differences
+    if (abs(diff) < 5):  # if they are similar
         return True
 
     # Find how many failed attempts from same IP
@@ -90,8 +99,9 @@ def generate_message(request=None):
 @app.route('/', methods = ['POST', 'GET'])
 def home():
     user_agent = request.headers.get('User-Agent')
-    output = re.search(var.bots_list, user_agent, flags=re.IGNORECASE)
-    if output or not user_agent:
+    # isBot = re.search(var.bots_list, user_agent, flags=re.IGNORECASE)
+    # if isBot or user_agent=='':
+    if 'Mozilla' not in user_agent:
         return 'This website is not for bots'
 
     ip_addr = request.remote_addr
