@@ -5,7 +5,8 @@ app = Flask(__name__)
 app.secret_key = 'my_secret_key'
 
 class var:
-  arr = []
+  last_pass = ['abcd']
+  last_totals = [394]
   bots_list = \
     '/bot|spider|curl|wget|crawl|slurp|python|java|blowfish|mediapartners/i'
   html_code = '''
@@ -39,13 +40,21 @@ class var:
   '''
 
 
+def is_brute_force(password=''):
+    var.last_pass.append(password)  # add last password
+    total = sum(ord(char) for char in password)
+    var.last_totals.append(total)  # add last
+    diffs = (total-x for x in var.last_totals)
+    diff = min(diffs)
+    if (abs(diff) < 5):
+        return True
+    return False
+
+
 @app.route('/', methods = ['POST', 'GET'])
 def home():
-
     user_agent = request.headers.get('User-Agent')
-
     output = re.search(var.bots_list, user_agent, flags=re.IGNORECASE)
-    
     if output or not user_agent:
         return 'This website is not for bots'
 
@@ -53,17 +62,20 @@ def home():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        
         if email=='test@gmail.com' and password=='~5_pFO*p6s8Kcj+U':
             msg = " -----> Login successful <----- "
+        elif is_brute_force(password=password):
+            msg = " -----> Brute force detected <----- "
         else:
             msg = " -----> Login failed <----- "
-            var.arr.append(password)
-    return user_agent[:10] + render_template_string(var.html_code, msg=msg)
+            var.last_pass.append(password)
+    return render_template_string(var.html_code, msg=msg)
 
 
 @app.route('/last/')
 def display_arr():
-    return '\n'.join(var.arr)
+    return '\n'.join(var.last_pass)
 
 
 if __name__ == "__main__":
