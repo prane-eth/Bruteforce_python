@@ -13,7 +13,11 @@ If Brute-force is detected, it blocks the IP address of the attacker.
 
 Detects whether it is a human or bot using user agent.
 
-TODO:
+##### Contributors:
+
+Detection part - Praneeth
+
+##### TODO:
 
 detect DoS using CPU usage > 50% (temporary)
 
