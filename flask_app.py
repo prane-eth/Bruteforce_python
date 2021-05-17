@@ -5,7 +5,7 @@ import re
 from flask import *
 
 app = Flask(__name__)
-app.secret_key = 'my_secret_key'
+app.secret_key = 'my_secret_key_123'
 
 
 class var:
