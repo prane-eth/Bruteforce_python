@@ -2,7 +2,7 @@
 Contains code for Brute-force attacking and detection
 
 Deployed to Heroku
-[https://brutefo.herokuapp.com/](https://brutefo.herokuapp.com/)
+[in this link](https://brutefo.herokuapp.com/)
 
 
 ### Features:
@@ -13,9 +13,6 @@ If Brute-force is detected, it blocks the IP address of the attacker.
 
 Detects whether it is a human or bot using user agent.
 
-##### Contributors:
-
-Detection part - Praneeth
 
 ##### TODO:
 
