@@ -44,29 +44,28 @@ class var:
 def is_brute_force(password='', ip_addr=''):
     ' Detect whether the request is brute force or not, using password and IP address '
     var.last_pass.append(password)  # add last password
-    if len(var.last_pass) > 10:
-        var.last_pass.pop(0)  # decrease length
-        var.last_totals.pop(0)
+    if len(var.last_totals) > 10:
+        var.last_totals.pop(0)  # decrease length
+        var.last_pass.pop(0)
 
     # sum of values of all characters in password
     total = sum(ord(char) for char in password)
     var.last_totals.append(total)  # add last total
 
     # Find if similar passwords are being attempted
-    diffs = [total-x for x in var.last_totals[-5:]]  # difference total-x for last 5 passwords
+    # difference total-x for last 5 passwords
+    diffs = [total-x for x in var.last_totals[-5:]]
     diffs.sort()
     diff = sum(diffs[:4])  # sum of 4 smallest differences
     if (abs(diff) < 5):  # if they are similar
         return True
 
     # Find how many failed attempts from same IP
-    if ip_addr in var.failed_attempts:
-        if var.failed_attempts[ip_addr] > 5:
-            return True
-        else:
-            var.failed_attempts[ip_addr] += 1
+    if var.failed_attempts.get(ip_addr, 0) > 5:
+        var.blocked_ips.append(ip_addr)
+        return True
     else:
-        var.failed_attempts[ip_addr] = 1
+        var.failed_attempts[ip_addr] = var.failed_attempts.get(ip_addr, 0) + 1
         
     return False
 
@@ -81,7 +80,6 @@ def generate_message(request=None):
     ip_addr = request.remote_addr
     if is_brute_force(password=password, ip_addr=ip_addr):
         msg = " -----> Brute force detected <----- "
-        var.blocked_ips.append(ip_addr)
     elif email=='test@gmail.com' and password=='~5_pFO*p6s8Kcj+U':
         msg = " -----> Login successful <----- "
         # return 'successful'
