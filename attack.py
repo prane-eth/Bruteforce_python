@@ -48,11 +48,26 @@ def main():
         if res:  # if there is response, stop attack
             print(res)
             break
-        last_char = password[-1]
-        last_char = chr(ord(last_char) + 1)  # increase last character
-        password[-1] = last_char
-        time.sleep(1)  # wait for 1 second
+        if password[-1] is '~':  # last char can't be increased
+            password[-1] = '!'
+            if password[-2] is '~':
+                pass
+            else:
+                password[-2] = chr(ord(password[-2]) + 1)
+        else:
+            password[-1] = chr(ord(password[-1]) + 1)  # increase last character
+        time.sleep(1)  # wait for 1 second before next attempt
 
 
 if __name__ == '__main__':
     main()
+
+
+'''
+Note:
+for x in range(150):
+    print(x, chr(x))
+
+Characters which can be in password
+33 !  to 126 ~
+'''

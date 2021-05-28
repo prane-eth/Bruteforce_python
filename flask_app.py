@@ -21,7 +21,7 @@ class var:
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <div align="center" class="border"> 
             <div class="header"> 
-                <h1 class="word">Login</h1> 
+                <h1 class="word"> Login </h1> 
             </div> <br> <br> <br> 
             <h2 class="word"> 
                 <form action="/" method="post"> 
@@ -34,8 +34,8 @@ class var:
             <p class="bottom">
                 Don't have an account? <a class="bottom" href="/">Sign Up here</a>
             </p>
-            test@gmail.com <br>
-            .5_pFO*p6s8Kcj+U
+            ''' + email + ''' <br>
+            ''' + password + '''
         </div>
     '''
 
