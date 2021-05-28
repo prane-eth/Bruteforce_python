@@ -10,12 +10,12 @@ app.secret_key = 'my_secret_key_123'
 
 class var:
     ' A class used to store variables '
-    attempts_limit = 8
+    attempts_limit = 10
     email = 'test@gmail.com'
     password = '.5_pFO*p6s8Kcj+U'
     last_totals = [394]
-    failed_attempts = {}
-    blocked_ips = []
+    failed_attempts = {}  # dictionary
+    blocked_ips = set()  # empty set
     html_code = '''
         <title> Login page </title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -45,24 +45,7 @@ def block(ip_addr):
 
 
 def is_brute_force(password, ip_addr):
-    ' Detect whether the request is brute force or not, using password and IP address '
-    if len(var.last_totals) > 10:
-        var.last_totals.pop(0)  # decrease length of list to 10
-
-    # sum of values of all characters in password
-    total = sum(ord(char) for char in password)
-    var.last_totals.append(total)  # add last total
-
-    # Find if similar passwords are being attempted
-    # difference total-x for last 5 passwords
-    diffs = [total-x for x in var.last_totals[-5:]]
-    similar_attempts = 0
-    for diff in diffs:
-        if diff < 5:
-            similar_attempts += 1
-    if similar_attempts > 2:
-        block(ip_addr)
-        return True
+    ' Detect whether the request is brute force or not '
 
     # Find how many failed attempts from same IP
     if var.failed_attempts.get(ip_addr, 0) > var.attempts_limit:
@@ -74,22 +57,19 @@ def is_brute_force(password, ip_addr):
 
 def generate_message(request):
     ' Generate response using the request '
-    if request is None:
-        return
-
     email = request.form['email']
     password = request.form['password']
     ip_addr = request.remote_addr
-    if is_brute_force(password=password, ip_addr=ip_addr):
-        msg = " -----> Brute force detected <----- "
-    elif email==var.email and password==var.password:
-        msg = " -----> Login successful <----- "
+    if email==var.email and password==var.password:
+        return " -----> Login successful <----- "
     else:
-        msg = " -----> Login failed <----- "
         # add failed attempt
         var.failed_attempts[ip_addr] = \
             var.failed_attempts.get(ip_addr, 0) + 1
-    return msg
+        if is_brute_force(password, ip_addr):
+            return " -----> Brute force detected <----- "
+        else:
+            return " -----> Login failed <----- "
 
 
 @app.route('/', methods = ['POST', 'GET'])
