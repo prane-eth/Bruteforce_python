@@ -10,7 +10,8 @@ app.secret_key = 'my_secret_key_123'
 
 class var:
     ' A class used to store variables '
-    last_pass = ['abcd']
+    email = 'test@gmail.com'
+    password = '.5_pFO*p6s8Kcj+U'
     last_totals = [394]
     failed_attempts = {}
     blocked_ips = []
@@ -28,25 +29,25 @@ class var:
                 <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox" value=""> </br>
                 <input type="submit" class="btn btn-primary" value="Sign In">
                 </form> 
-
                 <div class="msg"> {{ msg }} </div> 
             </h2> 
             <p class="bottom">
-                Don't have an account? <a class="bottom" href="/"> Sign Up here</a>
+                Don't have an account? <a class="bottom" href="/">Sign Up here</a>
             </p>
-                
             test@gmail.com <br>
-            ~5_pFO*p6s8Kcj+U
+            .5_pFO*p6s8Kcj+U
         </div>
     '''
 
 
-def is_brute_force(password='', ip_addr=''):
+def block(ip_addr):
+    var.blocked_ips.append(ip_addr)
+
+
+def is_brute_force(password, ip_addr):
     ' Detect whether the request is brute force or not, using password and IP address '
-    var.last_pass.append(password)  # add last password
     if len(var.last_totals) > 10:
-        var.last_totals.pop(0)  # decrease length
-        var.last_pass.pop(0)
+        var.last_totals.pop(0)  # decrease length of list to 10
 
     # sum of values of all characters in password
     total = sum(ord(char) for char in password)
@@ -55,22 +56,23 @@ def is_brute_force(password='', ip_addr=''):
     # Find if similar passwords are being attempted
     # difference total-x for last 5 passwords
     diffs = [total-x for x in var.last_totals[-5:]]
-    diffs.sort()
-    diff = sum(diffs[:4])  # sum of 4 smallest differences
-    if (abs(diff) < 5):  # if they are similar
+    similar_attempts = 0
+    for diff in diffs:
+        if diff < 5:
+            similar_attempts += 1
+    if similar_attempts > 2:
+        block(ip_addr)
         return True
 
     # Find how many failed attempts from same IP
     if var.failed_attempts.get(ip_addr, 0) > 5:
-        var.blocked_ips.append(ip_addr)
-        return True
+        block(ip_addr)
+        return True  # yes. it is brute-force
     else:
-        var.failed_attempts[ip_addr] = var.failed_attempts.get(ip_addr, 0) + 1
-        
-    return False
+        return False
 
 
-def generate_message(request=None):
+def generate_message(request):
     ' Generate response using the request '
     if request is None:
         return
@@ -80,14 +82,14 @@ def generate_message(request=None):
     ip_addr = request.remote_addr
     if is_brute_force(password=password, ip_addr=ip_addr):
         msg = " -----> Brute force detected <----- "
-    elif email=='test@gmail.com' and password=='~5_pFO*p6s8Kcj+U':
+    elif email==var.email and password==var.password:
         msg = " -----> Login successful <----- "
-        # return 'successful'
     else:
         msg = " -----> Login failed <----- "
-        var.last_pass.append(password)
+        # add failed attempt
+        var.failed_attempts[ip_addr] = \
+            var.failed_attempts.get(ip_addr, 0) + 1
     return msg
-
 
 
 @app.route('/', methods = ['POST', 'GET'])
@@ -109,13 +111,5 @@ def home():
     return render_template_string(var.html_code, msg=msg)
 
 
-@app.route('/last/')
-def display_arr():
-    ' Temporary function to be removed later '
-    return ' This feature is disabled'
-    #return '<br>'.join(var.last_pass)  # list last_pass separated by new line using <br>
-
-
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
-  
