@@ -10,12 +10,12 @@ app.secret_key = 'my_secret_key_123'
 
 class var:
     ' A class used to store variables '
+    attempts_limit = 8
     email = 'test@gmail.com'
     password = '.5_pFO*p6s8Kcj+U'
     last_totals = [394]
     failed_attempts = {}
     blocked_ips = []
-    # bots_list = '/bot|spider|curl|wget|crawl|slurp|python|java|blowfish|mediapartners/i'
     html_code = '''
         <title> Login page </title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -65,7 +65,7 @@ def is_brute_force(password, ip_addr):
         return True
 
     # Find how many failed attempts from same IP
-    if var.failed_attempts.get(ip_addr, 0) > 5:
+    if var.failed_attempts.get(ip_addr, 0) > var.attempts_limit:
         block(ip_addr)
         return True  # yes. it is brute-force
     else:
@@ -95,10 +95,11 @@ def generate_message(request):
 @app.route('/', methods = ['POST', 'GET'])
 def home():
     user_agent = request.headers.get('User-Agent')
+    # bots_list = '/bot|spider|curl|wget|crawl|slurp|python|java|blowfish|mediapartners/i'
     # isBot = re.search(var.bots_list, user_agent, flags=re.IGNORECASE)
     # if isBot or user_agent=='':
-    if 'Mozilla' not in user_agent:
-        return 'This website is not for bots'
+    if not user_agent.startswith('Mozilla'):
+        return 'Bot detected. This website is not for bots'
 
     ip_addr = request.remote_addr
     if ip_addr in var.blocked_ips:
