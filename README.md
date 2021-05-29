@@ -19,3 +19,5 @@ Detects whether it is a human or bot using user agent.
 detect DoS using CPU usage > 50% (temporary)
 
 detect DoS/bruteforce if more than 10 requests from same IP in 1 min
+
+auto-redirect to HTTPS

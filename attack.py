@@ -2,11 +2,11 @@
 
 ' Performs brute-force attacks against the target '
 
-import time, sys
-import requests, itertools
+import sys, time, itertools
+import requests
 from flask_app import var
 
-'To connect to localhost, run using $ ./attack.py l'
+'To connect to localhost, run using $ ./attack.py some_text'
 try:
     if sys.argv[1]:
         url = 'http://localhost:8080/'  # test on localhost
@@ -42,7 +42,7 @@ def try_password(trial=''):
 def main():
     ' Perform Brute force attack '
     # correct_password = '.5_pFO*p6s8Kcj+U'
-
+    
     start_text = 'abcdefghijklmnopqrstuvwxyz'  # text for first attempt
     length = len(start_text)  # how many char in password
     generator = itertools.combinations_with_replacement(start_text, length)
