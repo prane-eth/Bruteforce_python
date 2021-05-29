@@ -41,7 +41,7 @@ class var:
 
 
 def block(ip_addr):
-    var.blocked_ips.append(ip_addr)
+    var.blocked_ips.add(ip_addr)
 
 
 def is_brute_force(password, ip_addr):

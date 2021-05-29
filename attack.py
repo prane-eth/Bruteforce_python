@@ -41,16 +41,16 @@ def try_password(trial=''):
 
 def main():
     ' Perform Brute force attack '
-    password = '.5_pFO*p6s8Kcj+P'
+    password = '.5_pFO*p6s8Kcj+K'
     password = list(password)
-    for attempt in range(10):
+    for attempt in range(15):
         res = try_password(password)
         if res:  # if there is response, stop attack
             print(res)
             break
-        if password[-1] is '~':  # last char can't be increased
+        if password[-1] == '~':  # last char can't be increased
             password[-1] = '!'
-            if password[-2] is '~':
+            if password[-2] == '~':
                 pass
             else:
                 password[-2] = chr(ord(password[-2]) + 1)
