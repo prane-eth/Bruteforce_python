@@ -10,10 +10,9 @@ app.secret_key = 'my_secret_key_123'
 
 class var:
     ' A class used to store variables '
-    attempts_limit = 10
-    email = 'test@gmail.com'
+    attempts_limit = 6  # maximum incorrect attempts allowed
+    email = 'test@gmail.com'  # correct email and password
     password = '.5_pFO*p6s8Kcj+U'
-    last_totals = [394]
     failed_attempts = {}  # dictionary
     blocked_ips = set()  # empty set
     html_code = '''
@@ -42,9 +41,10 @@ class var:
 
 def block(ip_addr):
     var.blocked_ips.add(ip_addr)
+    print("\nBlocked IP: " + ip_addr + "\n")
 
 
-def is_brute_force(password, ip_addr):
+def is_brute_force(ip_addr):
     ' Detect whether the request is brute force or not '
 
     # Find how many failed attempts from same IP
@@ -66,7 +66,7 @@ def generate_message(request):
         # add failed attempt
         var.failed_attempts[ip_addr] = \
             var.failed_attempts.get(ip_addr, 0) + 1
-        if is_brute_force(password, ip_addr):
+        if is_brute_force(ip_addr):
             return " -----> Brute force detected <----- "
         else:
             return " -----> Login failed <----- "
@@ -74,21 +74,21 @@ def generate_message(request):
 
 @app.route('/', methods = ['POST', 'GET'])
 def home():
+    ip_address = request.remote_addr
+    if ip_address in var.blocked_ips:
+        return 'Your IP is blocked'
+
     user_agent = request.headers.get('User-Agent')
     # bots_list = '/bot|spider|curl|wget|crawl|slurp|python|java|blowfish|mediapartners/i'
     # isBot = re.search(var.bots_list, user_agent, flags=re.IGNORECASE)
     # if isBot or user_agent=='':
     if not user_agent.startswith('Mozilla'):
         return 'Bot detected. This website is not for bots'
-
-    ip_addr = request.remote_addr
-    if ip_addr in var.blocked_ips:
-        return 'Your IP is blocked'
     
     if request.method == 'POST':
         msg = generate_message(request)
     else:
-        msg = ''  
+        msg = ''
     return render_template_string(var.html_code, msg=msg)
 
 

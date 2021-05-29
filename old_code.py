@@ -1,6 +1,8 @@
 
-' Old code to check for similar attempts'
+' This file contains old unused code '
 
+# Detector code
+# in class var: last_totals = [394]  # 'abcd'
 def is_brute_force(password, ip_addr):
     ' Detect whether the request is brute force or not, using password and IP address '
     
@@ -29,3 +31,34 @@ def is_brute_force(password, ip_addr):
         return True  # yes. it is brute-force
     else:
         return False
+
+
+# Attack code
+
+def main():
+    ' Perform Brute force attack '
+    password = '.5_pFO*p6s8Kcj+K'
+    password = list(password)
+    for attempt in range(15):
+        res = try_password(password)
+        if res:  # if there is response, stop attack
+            print(res)
+            break
+        if password[-1] == '~':  # last char can't be increased
+            password[-1] = '!'
+            if password[-2] == '~':
+                pass
+            else:
+                password[-2] = chr(ord(password[-2]) + 1)
+        else:
+            password[-1] = chr(ord(password[-1]) + 1)  # increase last character
+        time.sleep(1)  # wait for 1 second before next attempt
+
+'''
+Note:
+for x in range(150):
+    print(x, chr(x))
+
+Characters which can be in password
+33 !  to 126 ~
+'''

