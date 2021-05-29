@@ -72,6 +72,14 @@ def generate_message(request):
             return " -----> Login failed <----- "
 
 
+@app.before_request
+def enable_https():
+    if not request.is_secure:
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
+
+
 @app.route('/', methods = ['POST', 'GET'])
 def home():
     ip_address = request.remote_addr
