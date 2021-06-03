@@ -1,5 +1,5 @@
 # Bruteforce_detection
-Contains code for Brute-force attack and detection
+Contains code for Brute-force [attack](./attack.py) and [detection](./detection.py)
 
 Deployed to Heroku
 [in this link](https://brutefo.herokuapp.com/)
