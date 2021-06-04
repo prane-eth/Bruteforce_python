@@ -14,8 +14,6 @@ except Exception:
     url = 'http://brutefo.herokuapp.com/'
 
 print(url[7:-1])
-
-headers = {'User-Agent': 'Mozilla'}
 data = {
     'email': var.email,  # imported from flask_app
     'password': var.password
