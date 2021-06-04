@@ -9,9 +9,9 @@ from flask_app import var
 'To connect to localhost, run using $ ./attack.py some_text'
 try:
     if sys.argv[1]:
-        url = 'http://localhost:8080/'  # test on localhost
+        url = 'http://brutefo.herokuapp.com/'  # test on localhost
 except Exception:
-    url = 'http://brutefo.herokuapp.com/'
+    url = 'http://localhost:8080/'
 
 print(url[7:-1])
 data = {
