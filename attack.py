@@ -7,16 +7,18 @@ import requests
 from flask_app import var
 
 'To connect to localhost, run using $ ./attack.py some_text'
-try:
-    if sys.argv[1]:
-        url = 'http://brutefo.herokuapp.com/'  # test on localhost
-except Exception:
-    url = 'http://localhost:8080/'
+# try:
+#     if sys.argv[1]:
+#         url = 'http://brutefo.herokuapp.com/'  # test on localhost
+# except Exception:
+#     url = 'http://localhost:8080/'
+
+url = 'http://localhost:8080/'
 
 print(url[7:-1])
 data = {
     'email': var.email,  # imported from flask_app
-    'password': var.password
+    'password': ''
 }
 sess = requests.Session()
 sess.headers['User-Agent'] = 'Mozilla'
