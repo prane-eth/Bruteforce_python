@@ -40,8 +40,8 @@ def try_password(trial=[]):
     return ''  # empty string if failed
 
 
-def main():
-    ' Perform Brute force attack '
+def brute_force():
+    ' Perform brute-force attack '
     start_text = 'abcdefghij'  # text for first attempt
     length = len(start_text)  # how many char in password
     generator = itertools.combinations_with_replacement(start_text, length)
@@ -54,6 +54,7 @@ def main():
 
 
 def dictionary_attack():
+    ' Perform dictionary attack using a dictionary file '
     with open('dictionary.txt') as file:
         for password in file: 
             password = password.replace('\n', '')
@@ -65,5 +66,5 @@ def dictionary_attack():
 
 
 if __name__ == '__main__':
-    # main()
+    # brute_force()
     dictionary_attack()
