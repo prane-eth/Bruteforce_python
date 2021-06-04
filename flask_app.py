@@ -10,7 +10,7 @@ app.secret_key = 'my_secret_key_123'
 
 class var:
     ' A class used to store variables '
-    attempts_limit = 6  # maximum incorrect attempts allowed
+    attempts_limit = 4  # maximum incorrect attempts allowed
     email = 'test@gmail.com'  # correct email and password
     password = '.5_pFO*p6s8Kcj+U'
     failed_attempts = {}  # dictionary
