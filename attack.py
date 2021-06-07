@@ -51,7 +51,7 @@ def brute_force():
         if res:  # if there is response, stop attack
             print(res)
             break
-        time.sleep(1)  # wait for 1 second before next attempt
+        time.sleep(0.5)  # wait for 1 second before next attempt
 
 
 def dictionary_attack():
@@ -67,5 +67,7 @@ def dictionary_attack():
 
 
 if __name__ == '__main__':
-    brute_force()
-    # dictionary_attack()
+    if method == 'brute-force':
+        brute_force()
+    else:
+        dictionary_attack()
