@@ -59,6 +59,8 @@ Note:
 for x in range(150):
     print(x, chr(x))
 
+    if not user_agent.startswith('Mozilla'):
+        
 Characters which can be in password
 33 !  to 126 ~
 '''

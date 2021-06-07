@@ -10,7 +10,7 @@ app.secret_key = 'my_secret_key_123'
 
 class var:
     ' A class used to store variables '
-    attempts_limit = 4  # maximum incorrect attempts allowed
+    attempts_limit = 6  # maximum incorrect attempts allowed
     email = 'test@gmail.com'  # correct email and password
     password = '.5_pFO*p6s8Kcj+U'
     failed_attempts = {}  # dictionary
@@ -79,10 +79,9 @@ def home():
         return 'Your IP is blocked'
 
     user_agent = request.headers.get('User-Agent')
-    # bots_list = '/bot|spider|curl|wget|crawl|slurp|python|java|blowfish|mediapartners/i'
-    # isBot = re.search(var.bots_list, user_agent, flags=re.IGNORECASE)
-    # if isBot or user_agent=='':
-    if not user_agent.startswith('Mozilla'):
+    bots_list = '/bot|spider|curl|wget|python|slurp|crawl|java|blowfish|mediapartners/i'
+    isBot = re.search(bots_list, user_agent, flags=re.IGNORECASE)
+    if isBot:
         return 'Bot detected. This website is not for bots'
     
     if request.method == 'POST':
