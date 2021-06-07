@@ -2,16 +2,9 @@
 
 ' Performs brute-force attacks against the target '
 
-import sys, time, itertools
+import time, itertools
 import requests
 from flask_app import var
-
-'To connect to localhost, run using $ ./attack.py some_text'
-# try:
-#     if sys.argv[1]:
-#         url = 'http://brutefo.herokuapp.com/'  # test on localhost
-# except Exception:
-#     url = 'http://localhost:8080/'
 
 url = 'http://localhost:8080/'
 
