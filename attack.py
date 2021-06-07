@@ -2,9 +2,17 @@
 
 ' Performs brute-force attacks against the target '
 
-import time, itertools
+import sys, time, itertools
 import requests
 from flask_app import var
+
+try:
+    if sys.argv[1].startswith('d'):
+        method = 'dictionary'
+    else:
+        method = 'brute-force'
+except:
+    method = 'brute-force'
 
 url = 'http://localhost:8080/'
 
